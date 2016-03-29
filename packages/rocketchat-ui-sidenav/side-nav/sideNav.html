@@ -1,8 +1,10 @@
 <template name="sideNav">
 	<aside class="side-nav" role="navigation">
+                <!--
 		<header class="header">
 			{{> accountBox }}
-		</header>
+                </header>
+                -->
 		{{#if currentUser}}
 			<div class="unread-rooms top-unread-rooms hidden">
 				{{_ "More_unreads"}} <i class="icon-up-big"></i>
@@ -17,9 +19,6 @@
 						{{/if}}
 					{{/each}}
 
-					<h3 class="history-div">
-						<a href="{{pathFor 'privateHistory'}}">{{_ "History"}}</a>
-					</h3>
 				</div>
 			</div>
 			<div class="unread-rooms bottom-unread-rooms hidden">
@@ -30,10 +29,6 @@
 					{{> Template.dynamic template=flexTemplate data=flexData}}
 				</section>
 			</div>
-			<span class="arrow bottom"></span>
 		{{/if}}
-		<footer class="footer">
-			{{{footer}}}
-		</footer>
 	</aside>
 </template>
