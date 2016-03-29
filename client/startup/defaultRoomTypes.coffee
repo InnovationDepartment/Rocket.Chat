@@ -2,21 +2,6 @@ RocketChat.roomTypes.add null, 0,
 	template: 'starredRooms'
 	icon: 'icon-star'
 
-RocketChat.roomTypes.add 'c', 10,
-	template: 'channels'
-	icon: 'icon-hash'
-	route:
-		name: 'channel'
-		path: '/channel/:name'
-		action: (params, queryParams) ->
-			Session.set 'showUserInfo'
-			openRoom 'c', params.name
-			RocketChat.TabBar.showGroup 'channel'
-		link: (sub) ->
-			return { name: sub.name }
-	condition: ->
-		return RocketChat.authz.hasAllPermission 'view-c-room'
-
 RocketChat.roomTypes.add 'd', 20,
 	template: 'directMessages'
 	icon: 'icon-at'
