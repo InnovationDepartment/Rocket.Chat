@@ -4,23 +4,27 @@
 
 Meteor.startup ->
 
-	Tracker.autorun ->
+  Tracker.autorun ->
 
-		if Meteor.userId()
+    if Meteor.userId()
 
-			RocketChat.Notifications.onUser 'notification', (notification) ->
+      RocketChat.Notifications.onUser 'notification', (notification) ->
+        console.log notification
+        request = new XMLHttpRequest()
+        url = "http://localhost:8003/message"
+        params = 'message=turkey'
+        request.open 'POST', url, true
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send params
 
-				openedRoomId = undefined
-				if FlowRouter.getRouteName() in ['channel', 'group', 'direct']
-					openedRoomId = Session.get 'openedRoom'
-
-				# This logic is duplicated in /client/startup/unread.coffee.
-				hasFocus = readMessage.isEnable()
-				messageIsInOpenedRoom = openedRoomId is notification.payload.rid
-
-				if !(hasFocus and messageIsInOpenedRoom)
-					# Play a sound.
-					KonchatNotification.newMessage()
-
-					# Show a notification.
-					KonchatNotification.showDesktop notification
+        openedRoomId = undefined
+        if FlowRouter.getRouteName() in ['channel', 'group', 'direct']
+          openedRoomId = Session.get 'openedRoom'
+          # This logic is duplicated in /client/startup/unread.coffee.
+          hasFocus = readMessage.isEnable()
+          messageIsInOpenedRoom = openedRoomId is notification.payload.rid
+          if !(hasFocus and messageIsInOpenedRoom)
+            # Play a sound.
+            KonchatNotification.newMessage()
+            # Show a notification.
+            KonchatNotification.showDesktop notification
