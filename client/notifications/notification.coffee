@@ -12,10 +12,9 @@ Meteor.startup ->
         console.log notification
         request = new XMLHttpRequest()
         url = "http://localhost:8003/message"
-        params = 'message=turkey'
         request.open 'POST', url, true
-        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send params
+        request.setRequestHeader "Content-type", "application/json"
+        request.send JSON.stringify { message: notification }
 
         openedRoomId = undefined
         if FlowRouter.getRouteName() in ['channel', 'group', 'direct']
