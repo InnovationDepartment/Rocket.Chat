@@ -1,2 +1,2 @@
-Template.registerHelper 'log', ->
-	console.log.apply console, arguments
+#Template.registerHelper 'log', ->
+#	console.log.apply console, arguments
