@@ -10,7 +10,6 @@ FlowRouter.subscriptions = ->
 		@register 'activeUsers', Meteor.subscribe('activeUsers')
 		@register 'admin-settings', Meteor.subscribe('admin-settings')
 
-
 FlowRouter.route '/',
 	name: 'index'
 

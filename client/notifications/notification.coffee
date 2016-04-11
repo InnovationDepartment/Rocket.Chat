@@ -9,13 +9,6 @@ Meteor.startup ->
     if Meteor.userId()
 
       RocketChat.Notifications.onUser 'notification', (notification) ->
-        console.log notification
-        request = new XMLHttpRequest()
-        url = "http://localhost:8003/message"
-        request.open 'POST', url, true
-        request.setRequestHeader "Content-type", "application/json"
-        request.send JSON.stringify { message: notification }
-
         openedRoomId = undefined
         if FlowRouter.getRouteName() in ['channel', 'group', 'direct']
           openedRoomId = Session.get 'openedRoom'

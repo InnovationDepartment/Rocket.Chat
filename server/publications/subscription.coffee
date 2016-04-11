@@ -1,6 +1,6 @@
 Meteor.publish 'subscription', ->
 	unless this.userId
-		return this.ready()
+ 		return this.ready()
 
 	RocketChat.models.Subscriptions.findByUserId this.userId,
 		fields:
