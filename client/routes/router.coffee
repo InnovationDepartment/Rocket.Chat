@@ -40,7 +40,12 @@ FlowRouter.route '/home',
 	name: 'home'
 
 	action: ->
-		FlowRouter.redirect(localStorage.getItem('last_conversation'))
+		if localStorage.getItem('last_conversation')
+			FlowRouter.redirect(localStorage.getItem('last_conversation'))
+		else
+			RocketChat.TabBar.showGroup 'home'
+			BlazeLayout.render 'main', {center: 'home'}
+			KonchatNotification.getDesktopPermission()
 
 FlowRouter.route '/changeavatar',
 	name: 'changeAvatar'
