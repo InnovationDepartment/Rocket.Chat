@@ -9,6 +9,7 @@ RocketChat.roomTypes.add 'd', 20,
 		name: 'direct'
 		path: '/direct/:username'
 		action: (params, queryParams) ->
+			window.localStorage.setItem('last_conversation', '/direct/' + params.username)
 			Session.set 'showUserInfo', params.username
 			openRoom 'd', params.username
 			RocketChat.TabBar.showGroup 'directmessage'
