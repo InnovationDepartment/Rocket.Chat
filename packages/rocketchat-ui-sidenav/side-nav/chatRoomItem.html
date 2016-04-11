@@ -2,9 +2,10 @@
 	<li class="link-room-{{rid}} {{active}} {{#if unread}}has-unread{{/if}} {{#if alert}}has-alert{{/if}}">
 		<a class="open-room" href="{{route}}" title="{{name}}">
 			{{#if unread}}
-				<span class="unread">{{unread}}</span>
+                        <span class="unread" style="background-color:#FC7F2A;border-radius:11px;display:inline-block;position:absolute;width:20px;height:20px;color:white;text-align:center;padding-top:1px;">{{unread}}</span>
 			{{/if}}
-			<i class="{{roomIcon}} {{userStatus}}" aria-label=""></i>
+
+			<h2 class='name brand'><i class="{{roomIcon}} {{userStatus}}" aria-label=""></i>Wellpath</h2>
 			<span class='name'>{{name}}</span>
 			{{#if $not unread}}
 				<span class='opt'>
