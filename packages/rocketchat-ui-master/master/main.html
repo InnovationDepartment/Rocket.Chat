@@ -1,5 +1,5 @@
 <head>
-	<title>Rocket.Chat</title>
+	<title>Mojo Chat</title>
 	<meta charset="utf-8" />
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="expires" content="-1" />
@@ -42,7 +42,7 @@
 
 <template name="main">
 <div style="z-index: 100000; width: 100%; height: 60px; background-color: #d5ecdb; padding-left: 40px; padding-right: 40px;">
-    <button type="submit" class=" btn btn-primary" style="float: right; margin-bottom: 15px; margin-top: 15px; font-family: GothamRnd-Bold; text-transform: uppercase; border-radius: 1px; font-size: 9px; min-height: 38px; letter-spacing: 2px; min-width: 158px; padding-right: 20px; padding-left: 20px; padding-top: 6px; outline: none; border-color: rgb(255, 128, 19); color: white; border-width: 1px; background-color: rgb(255, 128, 19);">START NEW CONVERSATION</button>
+  <button type="submit" class="new-conversation btn btn-primary" style="float: right; margin-bottom: 15px; margin-top: 15px; font-family: GothamRnd-Bold; text-transform: uppercase; border-radius: 1px; font-size: 9px; min-height: 38px; letter-spacing: 2px; min-width: 158px; padding-right: 20px; padding-left: 20px; padding-top: 6px; outline: none; border-color: rgb(255, 128, 19); color: white; border-width: 1px; background-color: rgb(255, 128, 19);">START NEW CONVERSATION</button>
 </div>
 	{{#if subsReady}}
 		{{#unless logged}}
@@ -76,7 +76,7 @@
 							<div class="flex-tab-bar" role="toolbar">
 							</div>
 						{{/unless}}
-						<div class="main-content {{flexOpened}} {{flexOpenedRTC1}} {{flexOpenedRTC2}} {{#if modal}}main-modal{{/if}}">
+						<div style="top: 60px;" class="main-content {{flexOpened}} {{flexOpenedRTC1}} {{flexOpenedRTC2}} {{#if modal}}main-modal{{/if}}">
 							{{> Template.dynamic template=center}}
 						</div>
 						{{#unless modal}}

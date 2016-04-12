@@ -166,6 +166,11 @@ Template.main.events
 		chatContainer = $("#rocket-chat")
 		menu.toggle()
 
+	"click .new-conversation": ->
+		console.log 'new conversation'
+		SideNav.setFlex "directMessagesFlex"
+		SideNav.openFlex()
+
 	'touchstart': (e, t) ->
 		if document.body.clientWidth > 780
 			return

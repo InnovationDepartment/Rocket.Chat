@@ -18,7 +18,6 @@ Template.channels.helpers
 
 Template.channels.events
 	'click .add-room': (e, instance) ->
-		debugger
 		if RocketChat.authz.hasAtLeastOnePermission('create-c')
 			SideNav.setFlex "createChannelFlex"
 			SideNav.openFlex()
