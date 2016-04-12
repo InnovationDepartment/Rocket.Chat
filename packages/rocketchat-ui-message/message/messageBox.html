@@ -1,7 +1,7 @@
 <template name="messageBox">
 	{{#if subscribed}}
 		<form class="message-form" method="post" action="/">
-			<div style="display: flex; border-width: 1px; border-color: #d5ecdb; border-style: solid; border-radius: 5px;">
+			<div style="padding-right: 40px; margin-right: 40px; display: flex; border-width: 1px; border-color: #d5ecdb; border-style: solid; border-radius: 5px;">
                           <div class="input-message-container">
 					{{> messagePopupConfig getPopupConfig}}
 					<textarea style="border: none;" dir="auto" name="msg" maxlength="{{maxMessageLength}}" class="input-message autogrow-short" placeholder="{{_ 'Message'}}"></textarea>
@@ -26,7 +26,7 @@
                                               </div>
                                   -->
 					<div class="send-button">
-						<i class="icon-paper-plane" aria-label="{{_ "Send"}}"></i>
+						<i style="color: #a0c9c5;" class="icon-paper-plane" aria-label="{{_ "Send"}}"></i>
 					</div>
 				</div>
 			</div>
