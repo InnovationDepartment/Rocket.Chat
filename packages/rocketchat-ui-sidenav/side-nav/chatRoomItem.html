@@ -1,5 +1,5 @@
 <template name="chatRoomItem">
-	<li style="border-top: 1px; border-style: solid; border-color: #e5e5e5; padding: 10px" class="link-room-{{rid}} {{active}} {{#if unread}}has-unread{{/if}} {{#if alert}}has-alert{{/if}}">
+	<li style="border-bottom: 1px; border-style: solid; border-color: #e5e5e5; padding: 10px" class="link-room-{{rid}} {{active}} {{#if unread}}has-unread{{/if}} {{#if alert}}has-alert{{/if}}">
 		<a class="open-room" href="{{route}}" title="{{name}}">
 			{{#if unread}}
                         <span class="unread" style="background-color:#FC7F2A;border-radius:11px;display:inline-block;position:absolute;width:20px;height:20px;color:white;text-align:center;padding-top:1px;">{{unread}}</span>

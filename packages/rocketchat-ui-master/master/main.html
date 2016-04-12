@@ -41,8 +41,8 @@
 </body>
 
 <template name="main">
-<div style="z-index: 100000; width: 100%; height: 100px; background-color: #d5ecdb;">
-    <button type="submit" class=" btn btn-primary" style="margin-bottom: 15px; margin-top: 15px; font-family: GothamRnd-Bold; text-transform: uppercase; border-radius: 1px; font-size: 9px; min-height: 38px; letter-spacing: 2px; min-width: 158px; padding-right: 20px; padding-left: 20px; padding-top: 6px; outline: none; border-color: rgb(255, 128, 19); color: white; border-width: 1px; background-color: rgb(255, 128, 19);">START NEW CONVERSATION</button>
+<div style="z-index: 100000; width: 100%; height: 60px; background-color: #d5ecdb; padding-left: 40px; padding-right: 40px;">
+    <button type="submit" class=" btn btn-primary" style="float: right; margin-bottom: 15px; margin-top: 15px; font-family: GothamRnd-Bold; text-transform: uppercase; border-radius: 1px; font-size: 9px; min-height: 38px; letter-spacing: 2px; min-width: 158px; padding-right: 20px; padding-left: 20px; padding-top: 6px; outline: none; border-color: rgb(255, 128, 19); color: white; border-width: 1px; background-color: rgb(255, 128, 19);">START NEW CONVERSATION</button>
 </div>
 	{{#if subsReady}}
 		{{#unless logged}}
@@ -68,7 +68,7 @@
 					{{> mobileMessageMenu}}
 					{{> videoCall overlay=true}}
 					<div id="user-card-popover"></div>
-					<div id="rocket-chat" class="menu-nav menu-closed">
+					<div id="rocket-chat" style="top: 60px;" class="menu-nav menu-closed">
 						<div class="connection-status">
 							{{> status}}
 						</div>
