@@ -25,8 +25,8 @@ RocketChat.theme.addPublicColor "smallprint-font-color", "#c2e7ff"
 RocketChat.theme.addPublicColor "smallprint-hover-color", "#ffffff"
 RocketChat.theme.addPublicColor "status-away", "#fcb316"
 RocketChat.theme.addPublicColor "status-busy", "#d30230"
-RocketChat.theme.addPublicColor "status-offline", "rgba(150, 150, 150, 0.50)"
-RocketChat.theme.addPublicColor "status-online", "#35ac19"
+RocketChat.theme.addPublicColor "status-offline", "#4d5653"
+RocketChat.theme.addPublicColor "status-online", "#d5ecdb"
 RocketChat.theme.addPublicColor "unread-notification-color", "#1dce73"
 
 

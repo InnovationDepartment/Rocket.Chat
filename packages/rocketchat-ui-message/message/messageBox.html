@@ -1,18 +1,18 @@
 <template name="messageBox">
 	{{#if subscribed}}
 		<form class="message-form" method="post" action="/">
-			<div style="display: flex">
-				<div class="input-message-container">
+			<div style="display: flex; border-width: 1px; border-color: #d5ecdb; border-style: solid; border-radius: 5px;">
+                          <div class="input-message-container">
 					{{> messagePopupConfig getPopupConfig}}
-					<textarea dir="auto" name="msg" maxlength="{{maxMessageLength}}" class="input-message autogrow-short" placeholder="{{_ 'Message'}}"></textarea>
+					<textarea style="border: none;" dir="auto" name="msg" maxlength="{{maxMessageLength}}" class="input-message autogrow-short" placeholder="{{_ 'Message'}}"></textarea>
 
 					<div class="inner-right-toolbar">
-						<i class="emoji-picker-icon icon-people"></i>
+						<i style="color: #a0c9c5;" class="emoji-picker-icon icon-people"></i>
 					</div>
 				</div>
 
-				<div class="file">
-					<i class="icon-attach file"></i>
+				<div class="file" style="border: none; background-color: #fff;">
+					<i class="icon-attach file" style="color: #a0c9c5;"></i>
 					<input type="file" accept="{{fileUploadAllowedMediaTypes}}">
 				</div>
 
