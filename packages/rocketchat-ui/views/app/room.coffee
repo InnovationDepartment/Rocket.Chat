@@ -288,14 +288,14 @@ Template.room.events
 		RocketChat.TabBar.openFlex()
 		Session.set('showUserInfo', @username)
 
-	'click .user-card-message': (e) ->
-		roomData = Session.get('roomData' + this._arguments[1].rid)
-		if roomData.t in ['c', 'p']
-			# Session.set('flexOpened', true)
-			Session.set('showUserInfo', $(e.currentTarget).data('username'))
-		# else
-			# Session.set('flexOpened', true)
-		RocketChat.TabBar.setTemplate 'membersList'
+#	'click .user-card-message': (e) ->
+#		roomData = Session.get('roomData' + this._arguments[1].rid)
+#		if roomData.t in ['c', 'p']
+#			# Session.set('flexOpened', true)
+#			Session.set('showUserInfo', $(e.currentTarget).data('username'))
+#		# else
+#			# Session.set('flexOpened', true)
+#		RocketChat.TabBar.setTemplate 'membersList'
 
 	'scroll .wrapper': _.throttle (e, instance) ->
 		if RoomHistoryManager.isLoading(@_id) is false and (RoomHistoryManager.hasMore(@_id) is true or RoomHistoryManager.hasMoreNext(@_id) is true)
