@@ -1,19 +1,21 @@
 <template name="privateGroupsFlex">
+<!--
 	<header>
 		<div>
 			<h4>{{_ "Private_Groups"}}</h4>
 		</div>
 	</header>
-	<div class="content">
-		<div class="wrapper">
-			<h4>{{_ "Create_new_private_group"}}</h4>
+-->
+	<div class="content" style="box-shadow: none; height: 100%;">
+		<div class="wrapper" style="width: 100%;">
+			<h4 style="color: #74b6a7;">START A NEW CONVERSATION</h4>
 			<div class="input-line">
-				<label for="pvt-group-name">{{_ "Name"}}</label>
-				<input type="text" id="pvt-group-name" class="required" dir="auto">
+				<label for="pvt-group-name" style="color: #74b6a7;">{{_ "Name"}}</label>
+				<input style="color: #394644;" type="text" id="pvt-group-name" class="required" dir="auto">
 			</div>
 			<div class="input-line">
-				<label for="pvt-group-members">{{_ "Members" }}</label>
-				{{> inputAutocomplete settings=autocompleteSettings id="pvt-group-members" class="search" placeholder=tRoomMembers autocomplete="off"}}
+				<label for="pvt-group-members" style="color: #74b6a7;">{{_ "Members" }}</label>
+				{{> inputAutocomplete settings=autocompleteSettings style="color: #394644;" id="pvt-group-members" class="search" placeholder=tRoomMembers autocomplete="off"}}
 				<ul class="selected-users">
 					{{#each selectedUsers}}
 						<li>{{name}} <i class="icon-cancel remove-room-member"></i></li>

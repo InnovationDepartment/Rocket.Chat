@@ -167,9 +167,12 @@ Template.main.events
 		menu.toggle()
 
 	"click .new-conversation": ->
-		console.log 'new conversation'
-		SideNav.setFlex "directMessagesFlex"
-		SideNav.openFlex()
+		if RocketChat.authz.hasAtLeastOnePermission('create-p')
+			SideNav.setFlex "privateGroupsFlex"
+			SideNav.openFlex()
+		else
+			e.preventDefault()
+
 
 	'touchstart': (e, t) ->
 		if document.body.clientWidth > 780
