@@ -1,6 +1,6 @@
 Meteor.publish 'brandAutocomplete', (selector) ->
-#	unless this.userId
-#		return this.ready()
+	unless this.userId
+		return this.ready()
 
 	pub = this
 
@@ -14,7 +14,6 @@ Meteor.publish 'brandAutocomplete', (selector) ->
 
 	exceptions = selector.exceptions or []
 
-	console.log RocketChat.models
 	cursorHandle = RocketChat.models.Brands.findByBrand(selector.name, exceptions, options).observeChanges
 		added: (_id, record) ->
 			pub.added("autocompleteRecords", _id, record)

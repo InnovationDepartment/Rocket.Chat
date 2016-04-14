@@ -14,13 +14,6 @@ Template.privateGroupsFlex.helpers
 		console.log this.valueOf()
 		console.log "-----------"
 		return 'test DojoMojo'
-
-	groupName: ->
-		return Template.instance().groupName.get()
-
-	error: ->
-		return Template.instance().error.get()
-
 	autocompleteSettings: ->
 		return {
 			limit: 10
@@ -42,6 +35,17 @@ Template.privateGroupsFlex.helpers
 				}
 			]
 		}
+
+createCookie = (name, value, days) ->
+	`var expires`
+	if days
+		date = new Date
+		date.setTime date.getTime() + days * 24 * 60 * 60 * 1000
+		expires = '; expires=' + date.toGMTString()
+	else
+		expires = ''
+	document.cookie = name + '=' + value + expires + '; path=/'
+	return
 
 Template.privateGroupsFlex.events
 	'autocompleteselect #pvt-group-members': (event, instance, doc) ->
@@ -77,41 +81,37 @@ Template.privateGroupsFlex.events
 		SideNav.leaveArrow()
 
 	'keydown input[type="text"]': (e, instance) ->
-		Template.instance().error.set([])
+#		debugger
+		data = '{\n    "size": 200,\n    "query": {\n        "wildcard": {\n            "accountname":  "*wel*"\n        }\n    }                   \n}\n'
+		xhr = new XMLHttpRequest
+		xhr.withCredentials = true
+		xhr.addEventListener 'readystatechange', ->
+		if @readyState == 4
+			console.log @responseText
+			return
 
-	'click .save-pvt-group': (e, instance) ->
-		err = SideNav.validate()
-		name = instance.find('#pvt-group-name').value.toLowerCase().trim()
-		instance.groupName.set name
-		if not err
-			Meteor.call 'createPrivateGroup', name, instance.selectedUsers.get(), (err, result) ->
-				if err
-					if err.error is 'name-invalid'
-						instance.error.set({ invalid: true })
-						return
-					if err.error is 'duplicate-name'
-						instance.error.set({ duplicate: true })
-						return
-					if err.error is 'archived-duplicate-name'
-						instance.error.set({ archivedduplicate: true })
-						return
-					return toastr.error err.reason
-				SideNav.closeFlex()
-				instance.clearForm()
-				FlowRouter.go 'group', { name: name }
-		else
-			Template.instance().error.set({fields: err})
+		createCookie('remember', 'MfejvoRMMRVuCegwSMmGTnNzI3NBiMxXMDUoxjbMtAy')
+		xhr.open 'POST', 'http://localhost:5000/search/'
+		xhr.setRequestHeader 'x-requested-with', 'XMLHttpRequest'
+		xhr.setRequestHeader 'accept', '*/*'
+		xhr.setRequestHeader 'accept-language', 'en-US,en;q=0.8'
+		xhr.setRequestHeader 'content', 'application/json'
+		xhr.send data
+
+#		if document.querySelector('.input-line').value() == ''
+#			$('.input-line:last').append '<div class="-autocomplete-container"></div>'
+#		else
+#			$('.input-line:last').append '<div class="-autocomplete-container"></div>'
 
 Template.privateGroupsFlex.onCreated ->
 	instance = this
 	instance.selectedUsers = new ReactiveVar []
 	instance.selectedUserNames = {}
 	instance.error = new ReactiveVar []
-	instance.groupName = new ReactiveVar ''
 
 	instance.clearForm = ->
 		instance.error.set([])
 		instance.groupName.set('')
 		instance.selectedUsers.set([])
-		instance.find('#pvt-group-name').value = ''
+		nstance.find('#pvt-group-name').value = ''
 		instance.find('#pvt-group-members').value = ''

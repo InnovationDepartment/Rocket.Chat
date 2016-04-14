@@ -7,7 +7,7 @@
 @CachedChannelList = new Meteor.Collection null
 
 RocketChat.models.Users = _.extend {}, RocketChat.models.Users, Meteor.users
-RocketChat.models.Brands = _.extend {}, RocketChat.models.Brands, Meteor.brands
+RocketChat.models.Brands = _.extend {}, RocketChat.models.Brands, @brands
 RocketChat.models.Subscriptions = _.extend {}, RocketChat.models.Subscriptions, @ChatSubscription
 RocketChat.models.Rooms = _.extend {}, RocketChat.models.Rooms, @ChatRoom
 RocketChat.models.Messages = _.extend {}, RocketChat.models.Messages, @ChatMessage

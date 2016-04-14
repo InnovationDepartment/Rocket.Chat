@@ -11,7 +11,6 @@ RocketChat.models.Brands = new class extends RocketChat.models._Base
 		brandRegex = new RegExp brand, "i"
 		query =
 			$and: [
-				{ active: true }
 				{ brand: { $nin: exceptions } }
 				{ brand: brandRegex }
 			]
