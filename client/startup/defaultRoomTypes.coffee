@@ -42,6 +42,7 @@ RocketChat.roomTypes.add 'p', 30,
 		name: 'group'
 		path: '/group/:name'
 		action: (params, queryParams) ->
+#			window.localStorage.setItem('last_conversation', '/group/' + params.name)
 			Session.set 'showUserInfo'
 			openRoom 'p', params.name
 			RocketChat.TabBar.showGroup 'privategroup'

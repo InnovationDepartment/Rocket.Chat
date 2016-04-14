@@ -8,6 +8,13 @@ Template.privateGroupsFlex.helpers
 	name: ->
 		return Template.instance().selectedUserNames[this.valueOf()]
 
+	brand: ->
+		console.log "-----------"
+		console.log Template.instance().selectedUserNames
+		console.log this.valueOf()
+		console.log "-----------"
+		return 'test DojoMojo'
+
 	groupName: ->
 		return Template.instance().groupName.get()
 
@@ -21,17 +28,17 @@ Template.privateGroupsFlex.helpers
 			rules: [
 				{
 					# @TODO maybe change this 'collection' and/or template
-					collection: 'UserAndRoom'
-					subscription: 'userAutocomplete'
-					field: 'username'
-					template: Template.userSearch
-					noMatchTemplate: Template.userSearchEmpty
+					collection: 'brands'
+					subscription: 'brandAutocomplete'
+					field: 'name'
+					template: Template.brandSearch
+					noMatchTemplate: Template.brandSearchEmpty
 					matchAll: true
-					filter:
-						exceptions: [Meteor.user().username].concat(Template.instance().selectedUsers.get())
+#					filter:
+#						exceptions: [Meteor.user().username].concat(Template.instance().selectedUsers.get())
 					selector: (match) ->
-						return { username: match }
-					sort: 'username'
+						return { name: match }
+					sort: 'name'
 				}
 			]
 		}

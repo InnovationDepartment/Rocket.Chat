@@ -90,7 +90,7 @@ Template.room.helpers
 		switch roomData.t
 			when 'd' then return 'icon-at'
 			when 'c' then return 'icon-hash'
-			when 'p' then return 'icon-lock'
+			when 'p' then return 'icon-at'
 
 	userStatus: ->
 		roomData = Session.get('roomData' + this._id)
