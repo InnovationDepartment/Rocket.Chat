@@ -40,6 +40,19 @@ Template.privateGroupsFlex.helpers({
   }
 });
 
+function readCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for (var i=0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0)==' ')
+      c = c.substring(1,c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+  }
+
+  return null;
+}
+
 createCookie = function(name, value, days) {
   var expires;
   var date, expires;
@@ -51,6 +64,19 @@ createCookie = function(name, value, days) {
     expires = '';
   }
   document.cookie = name + '=' + value + expires + '; path=/';
+};
+
+getUsersForBrand = function(brandid, callback) {
+    var xhr = new XMLHttpRequest;
+    xhr.addEventListener('load', callback);
+    xhr.open('GET', 'http://localhost:5000/brands/' + brandid + '/users');
+    xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
+    xhr.setRequestHeader('accept', '*/*');
+    xhr.setRequestHeader('accept-language', 'en-US,en;q=0.8');
+    xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
+    xhr.setRequestHeader('authtoken', readCookie('remember'));
+    xhr.setRequestHeader('content', 'application/json');
+    xhr.send();
 };
 
 Template.privateGroupsFlex.events({
@@ -108,14 +134,21 @@ Template.privateGroupsFlex.events({
         var resultslist = document.createElement('ul');
         resultslist.id = 'resultslist';
         for (var i = 0; i < hits.length && i < 10; i++) {
-          // append to list of possible brands
           var result = document.createElement('li');
           result.innerHTML = hits[i]._source.accountname;
+          result.className = 'result';
+          result.onclick = function(e) {
+            var selectedBrandId = e.target.dataset.brandid;
+            getUsersForBrand(selectedBrandId, function(response) {
+               console.log(response.target.resonse);
+               var usersInBrand = JSON.parse(response.target.response);
+            });
+          };
           result.setAttribute('data-brandid', hits[i]._id);
           resultslist.appendChild(result);
         }
         document.getElementById('brandsearchlist').innerHTML = '';
-        document.getElementById('brandsearchlist').style = 'background-color: #fff; color: #000';
+        document.getElementById('brandsearchlist').style = 'background-color: #fff; color: #000; padding: 5px;';
         document.getElementById('brandsearchlist').appendChild(resultslist);
       }
       else {
@@ -126,17 +159,6 @@ Template.privateGroupsFlex.events({
     xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
     xhr.setRequestHeader('accept', '*/*');
     xhr.setRequestHeader('accept-language', 'en-US,en;q=0.8');
-    function readCookie(name) {
-      var nameEQ = name + "=";
-      var ca = document.cookie.split(';');
-      for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ')
-          c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-      }
-      return null;
-    }
     xhr.setRequestHeader('authtoken', readCookie('remember'));
     xhr.setRequestHeader('content', 'application/json');
     return xhr.send(JSON.stringify(data));
