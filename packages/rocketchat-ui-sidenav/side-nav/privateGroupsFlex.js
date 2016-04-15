@@ -111,7 +111,11 @@ Template.privateGroupsFlex.events({
           resultslist.appendChild(result);
         }
         document.getElementById('brandsearchlist').innerHTML = '';
+        document.getElementById('brandsearchlist').style = 'background-color: #fff; color: #000';
         document.getElementById('brandsearchlist').appendChild(resultslist);
+      }
+      else {
+        document.getElementById('resultslist').innerHTML = '';
       }
     });
     xhr.open('POST', 'http://localhost:5000/search');
