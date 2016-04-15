@@ -140,15 +140,15 @@ Template.privateGroupsFlex.events({
           result.onclick = function(e) {
             var selectedBrandId = e.target.dataset.brandid;
             getUsersForBrand(selectedBrandId, function(response) {
-               console.log(response.target.resonse);
                var usersInBrand = JSON.parse(response.target.response);
+               console.log(usersInBrand);
             });
           };
           result.setAttribute('data-brandid', hits[i]._id);
           resultslist.appendChild(result);
         }
         document.getElementById('brandsearchlist').innerHTML = '';
-        document.getElementById('brandsearchlist').style = 'background-color: #fff; color: #000; padding: 5px;';
+        document.getElementById('brandsearchlist').style = 'background-color: #fff; color: #000;';
         document.getElementById('brandsearchlist').appendChild(resultslist);
       }
       else {
