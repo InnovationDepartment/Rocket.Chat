@@ -7,6 +7,9 @@ Template.privateGroupsFlex.helpers({
   selectedUsers: function() {
     return Template.instance().selectedUsers.get();
   },
+  groupName: function() {
+    return Template.instance().groupName.get();
+  },
   name: function() {
     return Template.instance().selectedUserNames[this.valueOf()];
   },
@@ -86,6 +89,20 @@ Template.privateGroupsFlex.events({
     event.currentTarget.value = '';
     return event.currentTarget.focus();
   },
+  'click .save-pvt-group': function(e, instance) {
+    var err = SideNav.validate();
+     // set group name
+     // stub
+     var name = "Group1 + Group2";
+     debugger;
+     instance.groupName.set(name);
+     if (!err) {
+      Meteor.call('createPrivateGroup', name, instance.selectedUsers.get(), function(err, result) {
+        SideNav.closeFlex();
+        instance.clearForm();
+      });
+     }
+  },
   'click .remove-room-member': function(e, instance) {
     var self, users;
     self = this;
@@ -129,7 +146,6 @@ Template.privateGroupsFlex.events({
     xhr = new XMLHttpRequest;
     xhr.addEventListener('load', function(e) {
       var hits = JSON.parse(e.target.response).hits.hits;
-      console.log(hits);
       if (hits.length > 0) {
         var resultslist = document.createElement('ul');
         resultslist.id = 'resultslist';
@@ -171,6 +187,8 @@ Template.privateGroupsFlex.onCreated(function() {
   instance.selectedUsers = new ReactiveVar([]);
   instance.selectedUserNames = {};
   instance.error = new ReactiveVar([]);
+  instance.groupName = new ReactiveVar([]);
+
   return instance.clearForm = function() {
     instance.error.set([]);
     instance.groupName.set('');
