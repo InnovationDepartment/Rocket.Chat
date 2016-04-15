@@ -537,7 +537,45 @@ textarea[disabled] {
 	font-weight: bold;
 }
 
+.custom-autocomplte-container {
+	box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
+	border: none;
+	border-radius: 0;
+	width: 100%;
+	top: auto !important;
+	p {
+		font-size: 14px;
+		padding: 8px 8px;
+	}
+	> i {
+		visibility: hidden;
+		&:after {
+			content: " ";
+			visibility: visible;
+/*			background-image: url('/images/logo/loading.gif'); */
+			background-position: center;
+			background-repeat: no-repeat;
+			display: block;
+			height: 40px;
+			margin-bottom: 12px;
+		}
+	}
+}
+
+#brandsearchlist {
+	border: none;
+	border-radius: 0;
+	width: 100%;
+	top: auto !important;
+  li {
+    padding: 5px;
+  }
+  background-color: white;
+  color: black;
+}
+
 .-autocomplete-container {
+        display: none !important;
 	box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
 	border: none;
 	border-radius: 0;

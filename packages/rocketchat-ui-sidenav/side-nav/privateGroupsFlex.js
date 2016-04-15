@@ -88,31 +88,50 @@ Template.privateGroupsFlex.events({
   },
   'keydown input[type="text"]': function(e, instance) {
     var data, xhr;
-    data = '{\n    "size": 200,\n    "query": {\n        "wildcard": {\n            "accountname":  "*wel*"\n        }\n    }                   \n}\n';
+    data = {
+      size: 200,
+      query: {
+        wildcard: {
+          accountname:  "*" + document.querySelector('.input-line .search').value + "*"
+        }
+      }
+    };
     xhr = new XMLHttpRequest;
-    xhr.withCredentials = true;
-    xhr.addEventListener('readystatechange', function() {});
-    if (this.readyState === 4) {
-      console.log(this.responseText);
-      return;
-    }
-    xhr.open('POST', 'http://localhost:5000/search/');
+    xhr.addEventListener('load', function(e) {
+      var hits = JSON.parse(e.target.response).hits.hits;
+      console.log(hits);
+      if (hits.length > 0) {
+        var resultslist = document.createElement('ul');
+        resultslist.id = 'resultslist';
+        for (var i = 0; i < hits.length && i < 10; i++) {
+          // append to list of possible brands
+          var result = document.createElement('li');
+          result.innerHTML = hits[i]._source.accountname;
+          result.setAttribute('data-brandid', hits[i]._id);
+          resultslist.appendChild(result);
+        }
+        document.getElementById('brandsearchlist').innerHTML = '';
+        document.getElementById('brandsearchlist').appendChild(resultslist);
+      }
+    });
+    xhr.open('POST', 'http://localhost:5000/search');
     xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
     xhr.setRequestHeader('accept', '*/*');
     xhr.setRequestHeader('accept-language', 'en-US,en;q=0.8');
     function readCookie(name) {
-		    var nameEQ = name + "=";
-		    var ca = document.cookie.split(';');
-		    for(var i=0;i < ca.length;i++) {
-		        var c = ca[i];
-		        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-		        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-		    }
-		    return null;
-		}
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ')
+          c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+      }
+      return null;
+    }
     xhr.setRequestHeader('authtoken', readCookie('remember'));
     xhr.setRequestHeader('content', 'application/json');
-    return xhr.send(data);
+    return xhr.send(JSON.stringify(data));
   }
 });
 
@@ -126,7 +145,7 @@ Template.privateGroupsFlex.onCreated(function() {
     instance.error.set([]);
     instance.groupName.set('');
     instance.selectedUsers.set([]);
-    nstance.find('#pvt-group-name').value = '';
+    instance.find('#pvt-group-name').value = '';
     return instance.find('#pvt-group-members').value = '';
   };
 });
