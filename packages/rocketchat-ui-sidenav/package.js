@@ -48,7 +48,7 @@ Package.onUse(function(api) {
 	api.addFiles('side-nav/listDirectMessagesFlex.js', 'client');
 	api.addFiles('side-nav/listPrivateGroupsFlex.coffee', 'client');
 	api.addFiles('side-nav/privateGroups.coffee', 'client');
-	api.addFiles('side-nav/privateGroupsFlex.coffee', 'client');
+	api.addFiles('side-nav/privateGroupsFlex.js', 'client');
 	api.addFiles('side-nav/sideNav.coffee', 'client');
 	api.addFiles('side-nav/starredRooms.coffee', 'client');
 	api.addFiles('side-nav/unreadRooms.coffee', 'client');
