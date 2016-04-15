@@ -100,7 +100,17 @@ Template.privateGroupsFlex.events({
     xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
     xhr.setRequestHeader('accept', '*/*');
     xhr.setRequestHeader('accept-language', 'en-US,en;q=0.8');
-    xhr.setRequestHeader('authtoken', 'eaou');
+    function readCookie(name) {
+		    var nameEQ = name + "=";
+		    var ca = document.cookie.split(';');
+		    for(var i=0;i < ca.length;i++) {
+		        var c = ca[i];
+		        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+		    }
+		    return null;
+		}
+    xhr.setRequestHeader('authtoken', readCookie('remember'));
     xhr.setRequestHeader('content', 'application/json');
     return xhr.send(data);
   }
