@@ -86,8 +86,12 @@ Template.privateGroupsFlex.events({
   'mouseleave header': function() {
     return SideNav.leaveArrow();
   },
-  'keydown input[type="text"]': function(e, instance) {
+  'keyup input[type="text"]': function(e, instance) {
     var data, xhr;
+    if (document.querySelector('.input-line .search').value === '') {
+      document.getElementById('brandsearchlist').innerHTML = '';
+      return;
+    }
     data = {
       size: 200,
       query: {
