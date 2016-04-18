@@ -158,6 +158,8 @@ Template.privateGroupsFlex.events({
             getUsersForBrand(selectedBrandId, function(response) {
                var usersInBrand = JSON.parse(response.target.response);
                console.log(usersInBrand);
+               // now remove list disdplay
+               document.getElementById('brandsearchlist').innerHTML = ''
             });
           };
           result.setAttribute('data-brandid', hits[i]._id);
