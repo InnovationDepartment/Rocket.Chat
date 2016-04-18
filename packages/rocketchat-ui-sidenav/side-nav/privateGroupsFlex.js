@@ -7,6 +7,9 @@ Template.privateGroupsFlex.helpers({
   selectedUsers: function() {
     return Template.instance().selectedUsers.get();
   },
+  selectedBrands: function() {
+    return Template.instance().selectedBrands.get();
+  },
   groupName: function() {
     return Template.instance().groupName.get();
   },
@@ -93,15 +96,32 @@ Template.privateGroupsFlex.events({
     var err = SideNav.validate();
      // set group name
      // stub
-     var name = "Group1 + Group2";
-     debugger;
-     instance.groupName.set(name);
-     if (!err) {
-      Meteor.call('createPrivateGroup', name, instance.selectedUsers.get(), function(err, result) {
-        SideNav.closeFlex();
-        instance.clearForm();
-      });
-     }
+    var name = instance.selectedBrands.reduce(function(acc, current) {
+      return arr + current;
+    }, '');
+
+    instance.groupName.set(name);
+
+    getUsersForBrand(selectedBrandId, function(response) {
+         var usersInBrand = JSON.parse(response.target.response);
+       // stub until auth working
+       var fakeUsersInBrand = ['tony', 'tony test'];
+       for (var i = 0; /* i < usersInBrand */ i < fakeUsersInBrand.length; i++) {
+         instance.selectedUsers.set(instance.selectedUsers.get().concat(/* usersInBrand[i] */ fakeUsersInBrand[i]));
+         instance.selectedUserNames[fakeUsersInBrand[i]] = fakeUsersInBrand[i];
+       }
+
+       console.log(usersInBrand);
+       // now remove list display
+       document.getElementById('brandsearchlist').innerHTML = '';
+    });
+
+    if (!err) {
+     Meteor.call('createPrivateGroup', name, instance.selectedUsers.get(), function(err, result) {
+       SideNav.closeFlex();
+       instance.clearForm();
+     });
+    }
   },
   'click .remove-room-member': function(e, instance) {
     var self, users;
@@ -155,12 +175,8 @@ Template.privateGroupsFlex.events({
           result.className = 'result';
           result.onclick = function(e) {
             var selectedBrandId = e.target.dataset.brandid;
-            getUsersForBrand(selectedBrandId, function(response) {
-               var usersInBrand = JSON.parse(response.target.response);
-               console.log(usersInBrand);
-               // now remove list disdplay
-               document.getElementById('brandsearchlist').innerHTML = ''
-            });
+            instance.selectedBrands.set(instance.selectedBrands.get().concat(selectedBrandId));
+            debugger;
           };
           result.setAttribute('data-brandid', hits[i]._id);
           resultslist.appendChild(result);
@@ -187,6 +203,7 @@ Template.privateGroupsFlex.onCreated(function() {
   var instance;
   instance = this;
   instance.selectedUsers = new ReactiveVar([]);
+  instance.selectedBrands = new ReactiveVar([]);
   instance.selectedUserNames = {};
   instance.error = new ReactiveVar([]);
   instance.groupName = new ReactiveVar([]);
