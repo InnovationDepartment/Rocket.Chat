@@ -21,7 +21,8 @@ Template.privateGroupsFlex.helpers({
     console.log(Template.instance().selectedUserNames);
     console.log(this.valueOf());
     console.log("-----------");
-    return 'test DojoMojo';
+    // need to get the brand name from the brandid (this.valueof)
+    return this.valueOf();
   },
   autocompleteSettings: function() {
     return {
@@ -112,8 +113,6 @@ Template.privateGroupsFlex.events({
        }
 
        console.log(usersInBrand);
-       // now remove list display
-       document.getElementById('brandsearchlist').innerHTML = '';
     });
 
     if (!err) {
@@ -124,13 +123,20 @@ Template.privateGroupsFlex.events({
     }
   },
   'click .remove-room-member': function(e, instance) {
-    var self, users;
+    var self, users, brands;
     self = this;
+    /*
     users = Template.instance().selectedUsers.get();
     users = _.reject(Template.instance().selectedUsers.get(), function(_id) {
       return _id === self.valueOf();
     });
-    Template.instance().selectedUsers.set(users);
+    */
+
+    brands = Template.instance().selectedBrands.get();
+    brands = _.reject(template.instance().selectedBrands.get(), function(_id) {
+      return _id === self.value.Of();
+    });
+    Template.instance().selectedBrands.set(brands);
     return $('#pvt-group-members').focus();
   },
   'click .cancel-pvt-group': function(e, instance) {
@@ -177,6 +183,8 @@ Template.privateGroupsFlex.events({
             var selectedBrandId = e.target.dataset.brandid;
             instance.selectedBrands.set(instance.selectedBrands.get().concat(selectedBrandId));
             debugger;
+            // now remove list display
+            document.getElementById('brandsearchlist').innerHTML = '';
           };
           result.setAttribute('data-brandid', hits[i]._id);
           resultslist.appendChild(result);
