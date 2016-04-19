@@ -1,6 +1,42 @@
 var createCookie;
 
+var emptyList = function () {
+  document.getElementById('brandsearchlist').innerHTML = '';
+};
+
 Template.privateGroupsFlex.helpers({
+  newResultItem: function (brand) {
+    var accountname = brand._source.accountname;
+    var id = brand._id;
+    var result = document.createElement('li');
+
+    result.innerHTML = accountname;
+    result.className = 'result';
+    result.onclick = function(e) {
+      // add brandId to group chat
+      instance.selectedBrands.set(instance.selectedBrands.get().concat(id));
+      // now remove list display
+      emptyList();
+    }.bind(this);
+
+    return result;
+  },
+  loadedResults: function(e) {
+   var hits = JSON.parse(e.target.response).hits.hits;
+    if (hits.length > 0) {
+      var resultslist = document.createElement('ul');
+      resultslist.id = 'resultslist';
+      for (var i = 0; i < hits.length && i < 10; i++) {
+        resultslist.appendChild(newResultItem.bind(this)(hits[i]));
+      }
+      document.getElementById('brandsearchlist').innerHTML = '';
+      document.getElementById('brandsearchlist').style = 'background-color: #fff; color: #000;';
+      document.getElementById('brandsearchlist').appendChild(resultslist);
+    }
+    else {
+      document.getElementById('resultslist').innerHTML = '';
+    }
+  },
   tRoomMembers: function() {
     return t('Members');
   },
@@ -170,33 +206,7 @@ Template.privateGroupsFlex.events({
       }
     };
     xhr = new XMLHttpRequest;
-    xhr.addEventListener('load', function(e) {
-      var hits = JSON.parse(e.target.response).hits.hits;
-      if (hits.length > 0) {
-        var resultslist = document.createElement('ul');
-        resultslist.id = 'resultslist';
-        for (var i = 0; i < hits.length && i < 10; i++) {
-          var result = document.createElement('li');
-          result.innerHTML = hits[i]._source.accountname;
-          result.className = 'result';
-          result.onclick = function(e) {
-            var selectedBrandId = e.target.dataset.brandid;
-            instance.selectedBrands.set(instance.selectedBrands.get().concat(selectedBrandId));
-            debugger;
-            // now remove list display
-            document.getElementById('brandsearchlist').innerHTML = '';
-          };
-          result.setAttribute('data-brandid', hits[i]._id);
-          resultslist.appendChild(result);
-        }
-        document.getElementById('brandsearchlist').innerHTML = '';
-        document.getElementById('brandsearchlist').style = 'background-color: #fff; color: #000;';
-        document.getElementById('brandsearchlist').appendChild(resultslist);
-      }
-      else {
-        document.getElementById('resultslist').innerHTML = '';
-      }
-    });
+    xhr.addEventListener('load', loadedResults);
     xhr.open('POST', 'http://localhost:5000/search');
     xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
     xhr.setRequestHeader('accept', '*/*');
