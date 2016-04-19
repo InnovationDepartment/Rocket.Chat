@@ -31,12 +31,12 @@
 				<label for="pvt-group-members" style="color: #74b6a7;">BRANDS</label>
 				{{> inputAutocomplete settings=autocompleteSettings style="color: #394644;" id="pvt-group-members" class="search" placeholder="Brands" autocomplete="off"}}
                                 <div id="brandsearchlist"></div>
-                                
+                 <!--               
 				<ul class="selected-users">
 					{{#each selectedBrands}}
 						<li>{{brand.name}} <i class="icon-cancel remove-room-member"></i></li>
 					{{/each}}
-				</ul>
+                                      </ul>-->
                                 
 			</div>
 			{{#if error.fields}}
@@ -65,10 +65,10 @@
 					{{{_ "Duplicate_archived_private_group_name" groupName}}}
 				</div>
 			{{/if}}	
-			<div class="input-submit">
-				<button class="button clean primary save-pvt-group">{{_ "Save" }}</button>
+			<!--<div class="input-submit">
+                          				<button class="button clean primary save-pvt-group">{{_ "Save" }}</button>
 				<button class="button clean cancel-pvt-group">{{_ "Cancel" }}</button>
-			</div>
+                              </div>-->
 		</div>
 	</div>
 </template>

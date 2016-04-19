@@ -77,59 +77,12 @@ createCookie = function(name, value, days) {
   document.cookie = name + '=' + value + expires + '; path=/';
 };
 
-getUsersForBrands = function(brandIds, callback) {
-    var xhr = new XMLHttpRequest;
-    var data = {
-      brandIds: brandIds
-    };
-    xhr.addEventListener('load', callback);
-    xhr.open('GET', 'http://localhost:5000/brands-users');
-    xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
-    xhr.setRequestHeader('accept', '*/*');
-    xhr.setRequestHeader('accept-language', 'en-US,en;q=0.8');
-    xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
-    xhr.setRequestHeader('authtoken', readCookie('remember'));
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify(data));
-};
-
 Template.privateGroupsFlex.events({
   'autocompleteselect #pvt-group-members': function(event, instance, doc) {
     instance.selectedUsers.set(instance.selectedUsers.get().concat(doc.username));
     instance.selectedUserNames[doc.username] = doc.name;
     event.currentTarget.value = '';
     return event.currentTarget.focus();
-  },
-  'click .save-pvt-group': function(e, instance) {
-    var err = SideNav.validate();
-
-
-     // set group name
-     // stub
-    var name = instance.selectedBrands.reduce(function(acc, current) {
-      return arr + current;
-    }, '');
-
-    instance.groupName.set(name);
-
-    getUsersForBrand(selectedBrandId, function(response) {
-       var userIds = JSON.parse(response.target.response);
-       // stub until auth working
-       var fakeUsersInBrand = ['tony', 'tony test'];
-       for (var i = 0; /* i < usersInBrand */ i < fakeUsersInBrand.length; i++) {
-         instance.selectedUsers.set(instance.selectedUsers.get().concat(/* usersInBrand[i] */ fakeUsersInBrand[i]));
-         instance.selectedUserNames[fakeUsersInBrand[i]] = fakeUsersInBrand[i];
-       }
-
-       console.log(usersInBrand);
-    });
-
-    if (!err) {
-     Meteor.call('createPrivateGroup', name, instance.selectedUsers.get(), function(err, result) {
-       SideNav.closeFlex();
-       instance.clearForm();
-     });
-    }
   },
   'click .remove-room-member': function(e, instance) {
     var self, users, brands;
@@ -195,6 +148,8 @@ Template.privateGroupsFlex.onCreated(function() {
   instance.selectedUserNames = {};
   instance.error = new ReactiveVar([]);
   instance.groupName = new ReactiveVar([]);
+  instance.myBrandId = readCookie('brand');
+  instance.myBrandName = readCookie('brand');
   instance.newResultItem = function (brand) {
     var accountname = brand._source.accountname;
     var id = brand._id;
@@ -204,13 +159,29 @@ Template.privateGroupsFlex.onCreated(function() {
     result.className = 'result';
     result.onclick = function(e) {
        // add brandId to group chat
-       instance.selectedBrands.set(instance.selectedBrands.get().concat({ id: id, name: accountname }));
+      instance.selectedBrands.set(instance.selectedBrands.get().concat({ id: id, name: accountname }));
+      instance.createChat();
        // now remove list display
        emptyList();
     };
 
     return result;
   };
+
+  instance.getUsersForBrand = function(brandId, callback) {
+      var xhr = new XMLHttpRequest;
+      xhr.addEventListener('load', callback);
+      xhr.open('GET', 'http://localhost:5000/brands/' + brandId +  '/users');
+      xhr.setRequestHeader('brandid', instance.myBrandId);
+      xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
+      xhr.setRequestHeader('accept', '*/*');
+      xhr.setRequestHeader('accept-language', 'en-US,en;q=0.8');
+      xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
+      xhr.setRequestHeader('authtoken', readCookie('remember'));
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send();
+  };
+
   instance.loadedResults = function(e) {
     var hits = JSON.parse(e.target.response).hits.hits;
     if (hits.length > 0) {
@@ -224,10 +195,37 @@ Template.privateGroupsFlex.onCreated(function() {
       document.getElementById('brandsearchlist').appendChild(resultslist);
     }
     else {
-      document.getElementById('resultslist').innerHTML = '';
+      //document.getElementById('resultslist').innerHTML = '';
     }
   };
 
+  instance.createChat = function() {
+    var err = SideNav.validate();
+     // set group name
+     // stub
+    var name = instance.myBrandName + ' and ' +  instance.selectedBrands.get()[0].name;
+
+    instance.groupName.set(name);
+
+    var response, chatUserIds;
+    instance.getUsersForBrand(instance.selectedBrands.get()[0].id, function(response) {
+       response = JSON.parse(response.target.response);
+       chatUserIds = response.chatuserids;
+
+       for (var i = 0; i < chatUserIds.length; i++) {
+         instance.selectedUsers.set(instance.selectedUsers.get().concat(chatUserIds[i]));
+//         instance.selectedUserNames[usersInBrand[i]] = usersInBrand[i];
+       }
+       console.log(chatUserIds);
+
+      if (!err) {
+        Meteor.call('createPrivateGroup', name, chatUserIds, function(err, result) {
+          SideNav.closeFlex();
+          instance.clearForm();
+        });
+      }
+    });
+  };
 
   return instance.clearForm = function() {
     instance.error.set([]);
