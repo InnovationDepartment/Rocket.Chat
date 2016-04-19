@@ -171,7 +171,7 @@ Template.privateGroupsFlex.onCreated(function() {
   instance.getUsersForBrand = function(brandId, callback) {
       var xhr = new XMLHttpRequest;
       xhr.addEventListener('load', callback);
-      xhr.open('GET', 'http://localhost:5000/brands/' + brandId +  '/users');
+      xhr.open('POST', 'http://localhost:5000/brands-users');
       xhr.setRequestHeader('brandid', instance.myBrandId);
       xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
       xhr.setRequestHeader('accept', '*/*');
@@ -179,7 +179,7 @@ Template.privateGroupsFlex.onCreated(function() {
       xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
       xhr.setRequestHeader('authtoken', readCookie('remember'));
       xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.send();
+      xhr.send(JSON.stringify({ brandId: brandId}));
   };
 
   instance.loadedResults = function(e) {
@@ -201,25 +201,20 @@ Template.privateGroupsFlex.onCreated(function() {
 
   instance.createChat = function() {
     var err = SideNav.validate();
-     // set group name
-     // stub
-    var name = instance.myBrandName + ' and ' +  instance.selectedBrands.get()[0].name;
 
     instance.groupName.set(name);
 
     var response, chatUserIds;
     instance.getUsersForBrand(instance.selectedBrands.get()[0].id, function(response) {
-       response = JSON.parse(response.target.response);
-       chatUserIds = response.chatuserids;
-
-       for (var i = 0; i < chatUserIds.length; i++) {
-         instance.selectedUsers.set(instance.selectedUsers.get().concat(chatUserIds[i]));
-//         instance.selectedUserNames[usersInBrand[i]] = usersInBrand[i];
-       }
-       console.log(chatUserIds);
+      response = JSON.parse(response.target.response);
+      chatUserIds = response.chatuserids;
+      var name = response.accountname + ' and ' +  instance.selectedBrands.get()[0].name;
+      for (var i = 0; i < chatUserIds.length; i++) {
+        instance.selectedUsers.set(instance.selectedUsers.get().concat(chatUserIds[i]));
+      }
 
       if (!err) {
-        Meteor.call('createPrivateGroup', name, chatUserIds, function(err, result) {
+        Meteor.call('createPrivateGroup', name.replace(/\s/g, '-'), chatUserIds, function(err, result) {
           SideNav.closeFlex();
           instance.clearForm();
         });
