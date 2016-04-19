@@ -159,7 +159,7 @@ Template.privateGroupsFlex.onCreated(function() {
     result.className = 'result';
     result.onclick = function(e) {
        // add brandId to group chat
-      instance.selectedBrands.set(instance.selectedBrands.get().concat({ id: id, name: accountname }));
+      instance.selectedBrands.set({ id: id, name: accountname });
       instance.createChat();
        // now remove list display
        emptyList();
@@ -205,16 +205,19 @@ Template.privateGroupsFlex.onCreated(function() {
     instance.groupName.set(name);
 
     var response, chatUserIds;
-    instance.getUsersForBrand(instance.selectedBrands.get()[0].id, function(response) {
+    instance.getUsersForBrand(instance.selectedBrands.get().id, function(response) {
       response = JSON.parse(response.target.response);
       chatUserIds = response.chatuserids;
-      var name = response.accountname + ' and ' +  instance.selectedBrands.get()[0].name;
+      var name = response.accountname + ' and ' +  instance.selectedBrands.get().name;
       for (var i = 0; i < chatUserIds.length; i++) {
         instance.selectedUsers.set(instance.selectedUsers.get().concat(chatUserIds[i]));
       }
 
+      name = name.replace(/\s/g, '-');
+
       if (!err) {
-        Meteor.call('createPrivateGroup', name.replace(/\s/g, '-'), chatUserIds, function(err, result) {
+        Meteor.call('createPrivateGroup', name, chatUserIds, function(err, result) {
+          FlowRouter.go('group', { name: name })
           SideNav.closeFlex();
           instance.clearForm();
         });
