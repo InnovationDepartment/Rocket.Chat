@@ -1,3 +1,5 @@
+
+
 Blaze.registerHelper 'pathFor', (path, kw) ->
 	return FlowRouter.path path, kw.hash
 
@@ -33,27 +35,33 @@ FlowRouter.route '/login',
 	name: 'login'
 
 	action: ->
-		xhr = new XMLHttpRequest
-		xhr.addEventListener 'load', (data) ->
-			data = JSON.parse(data.currentTarget.responseText)
-			localStorage.setItem('Meteor.userId', data.userId )
-			localStorage.setItem('Meteor.loginToken', data.token.token )
-			localStorage.setItem('Meteor.loginTokenExpires', new Date(data.token.when).toString() )
+		readCookie = (name) ->
+		  nameEQ = name + '='
+		  ca = document.cookie.split(';')
+		  i = 0
+		  while i < ca.length
+		    c = ca[i]
+		    while c.charAt(0) == ' '
+		      c = c.substring(1, c.length)
+		    if c.indexOf(nameEQ) == 0
+		      return c.substring(nameEQ.length, c.length)
+		    i++
+		  null
 
-		xhr.open 'GET', 'http://localhost:3000/api/v1/auth'
-		xhr.setRequestHeader 'x-requested-with', 'XMLHttpRequest'
-		xhr.setRequestHeader 'accept', '*/*'
-		xhr.setRequestHeader 'accept-language', 'en-US,en;q=0.8'
-		xhr.setRequestHeader 'x-requested-with', 'XMLHttpRequest'
-		xhr.setRequestHeader 'content', 'application/json'
-		xhr.send()
-		FlowRouter.go 'home'
+		Meteor.call('dojoAuth', readCookie('remember'), (err, x) ->
+			localStorage.setItem('Meteor.userId', x.userId )
+			localStorage.setItem('Meteor.loginToken', x.token.token )
+			localStorage.setItem('Meteor.loginTokenExpires', new Date(x.token.when).toString() )
+			return FlowRouter.go 'home'
+		)
 
 
 FlowRouter.route '/home',
 	name: 'home'
 
 	action: ->
+		if !Meteor.userId()
+			FlowRouter.go 'login'
 		if localStorage.getItem('last_conversation')
 			FlowRouter.redirect(localStorage.getItem('last_conversation'))
 		else
