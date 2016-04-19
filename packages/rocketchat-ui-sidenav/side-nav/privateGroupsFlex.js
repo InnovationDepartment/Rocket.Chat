@@ -21,7 +21,7 @@ Template.privateGroupsFlex.helpers({
     return Template.instance().selectedUserNames[this.valueOf()];
   },
   brand: function() {
-    console.log("-----------");
+    console.log ("-----------");
     console.log(Template.instance().selectedUserNames);
     console.log(this.valueOf());
     console.log("-----------");
@@ -77,17 +77,20 @@ createCookie = function(name, value, days) {
   document.cookie = name + '=' + value + expires + '; path=/';
 };
 
-getUsersForBrand = function(brandid, callback) {
+getUsersForBrands = function(brandIds, callback) {
     var xhr = new XMLHttpRequest;
+    var data = {
+      brandIds: brandIds
+    };
     xhr.addEventListener('load', callback);
-    xhr.open('GET', 'http://localhost:5000/brands/' + brandid + '/users');
+    xhr.open('GET', 'http://localhost:5000/brands-users');
     xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
     xhr.setRequestHeader('accept', '*/*');
     xhr.setRequestHeader('accept-language', 'en-US,en;q=0.8');
     xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
     xhr.setRequestHeader('authtoken', readCookie('remember'));
-    xhr.setRequestHeader('content', 'application/json');
-    xhr.send();
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(data));
 };
 
 Template.privateGroupsFlex.events({
@@ -99,6 +102,8 @@ Template.privateGroupsFlex.events({
   },
   'click .save-pvt-group': function(e, instance) {
     var err = SideNav.validate();
+
+
      // set group name
      // stub
     var name = instance.selectedBrands.reduce(function(acc, current) {
@@ -108,7 +113,7 @@ Template.privateGroupsFlex.events({
     instance.groupName.set(name);
 
     getUsersForBrand(selectedBrandId, function(response) {
-       var usersInBrand = JSON.parse(response.target.response);
+       var userIds = JSON.parse(response.target.response);
        // stub until auth working
        var fakeUsersInBrand = ['tony', 'tony test'];
        for (var i = 0; /* i < usersInBrand */ i < fakeUsersInBrand.length; i++) {
@@ -161,8 +166,12 @@ Template.privateGroupsFlex.events({
     data = {
       size: 200,
       query: {
-        wildcard: {
-          accountname:  "*" + document.querySelector('.input-line .search').value + "*"
+        filtered: {
+          query: {
+            wildcard: {
+              accountnameSearch:  "*" + document.querySelector('.input-line .search').value + "*"
+            }
+          }
         }
       }
     };
@@ -171,9 +180,9 @@ Template.privateGroupsFlex.events({
     xhr.open('POST', 'http://localhost:5000/search');
     xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
     xhr.setRequestHeader('accept', '*/*');
+    xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('accept-language', 'en-US,en;q=0.8');
     xhr.setRequestHeader('authtoken', readCookie('remember'));
-    xhr.setRequestHeader('content', 'application/json');
     return xhr.send(JSON.stringify(data));
   }
 });
