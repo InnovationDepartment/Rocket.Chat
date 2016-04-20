@@ -1,6 +1,6 @@
 Template.privateGroups.helpers
 	rooms: ->
-		query = { t: { $in: ['p']}, f: { $ne: true }, open: true }
+		query = { t: { $in: ['p']}, f: { $ne: true } }
 
 		if Meteor.user()?.settings?.preferences?.unreadRoomsMode
 			query.alert =
