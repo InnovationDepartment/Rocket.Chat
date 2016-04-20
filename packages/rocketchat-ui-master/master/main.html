@@ -79,7 +79,7 @@
 					{{> mobileMessageMenu}}
 					{{> videoCall overlay=true}}
 					<div id="user-card-popover"></div>
-					<div id="rocket-chat" style="top: 60px;" class="menu-nav menu-closed">
+					<div id="rocket-chat" style="top: 60px; height: 500px;" class="menu-nav menu-closed">
 						<div class="connection-status">
 							{{> status}}
 						</div>
@@ -87,7 +87,7 @@
 							<div class="flex-tab-bar" role="toolbar">
 							</div>
 						{{/unless}}
-						<div style="top: 60px;" class="main-content {{flexOpened}} {{flexOpenedRTC1}} {{flexOpenedRTC2}} {{#if modal}}main-modal{{/if}}">
+						<div style="top: 60px; height: 500px;" class="main-content {{flexOpened}} {{flexOpenedRTC1}} {{flexOpenedRTC2}} {{#if modal}}main-modal{{/if}}">
 							{{> Template.dynamic template=center}}
 						</div>
 						{{#unless modal}}

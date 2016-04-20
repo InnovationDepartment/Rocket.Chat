@@ -157,6 +157,7 @@ Template.privateGroupsFlex.onCreated(function() {
 
     result.innerHTML = accountname;
     result.className = 'result';
+    result.style = 'color: #d5ecdb; padding: 10px;';
     result.onclick = function(e) {
        // add brandId to group chat
       instance.selectedBrands.set({ id: id, name: accountname });
@@ -191,7 +192,7 @@ Template.privateGroupsFlex.onCreated(function() {
         resultslist.appendChild(instance.newResultItem(hits[i]));
       }
       document.getElementById('brandsearchlist').innerHTML = '';
-      document.getElementById('brandsearchlist').style = 'background-color: #fff; color: #000;';
+      document.getElementById('brandsearchlist').style = 'border-color: #d5ecdb; border-style: solid; border-width: 1px; background-color: #fff; color: #000;';
       document.getElementById('brandsearchlist').appendChild(resultslist);
     }
     else {
