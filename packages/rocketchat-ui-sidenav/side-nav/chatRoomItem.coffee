@@ -5,8 +5,8 @@ Template.chatRoomItem.helpers
 			return this.alert
 
 	unread: ->
-		if (FlowRouter.getParam('_id') isnt this.rid or not document.hasFocus()) and this.unread > 0
-			return this.unread
+		console.log this
+		return this.unread
 
 	userStatus: ->
 		return 'status-' + (Session.get('user_' + this.name + '_status') or 'offline')
