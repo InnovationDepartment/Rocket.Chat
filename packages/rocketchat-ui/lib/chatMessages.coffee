@@ -84,6 +84,7 @@ class @ChatMessages
 
 	send: (rid, input) ->
 		if _.trim(input.value) isnt ''
+			input.value = '@all ' + input.value
 			readMessage.enable()
 			readMessage.readNow()
 			$('.message.first-unread').removeClass('first-unread')
