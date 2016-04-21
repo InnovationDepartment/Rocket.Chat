@@ -130,7 +130,7 @@ Template.privateGroupsFlex.events({
     };
     xhr = new XMLHttpRequest;
     xhr.addEventListener('load', Template.instance().loadedResults);
-    xhr.open('POST', 'http://localhost:5000/search');
+    xhr.open('POST', process.env.DOJOMOJO_URL + '/search');
     xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
     xhr.setRequestHeader('accept', '*/*');
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -172,7 +172,7 @@ Template.privateGroupsFlex.onCreated(function() {
   instance.getUsersForBrand = function(brandId, callback) {
       var xhr = new XMLHttpRequest;
       xhr.addEventListener('load', callback);
-      xhr.open('POST', 'http://localhost:5000/brands-users');
+      xhr.open('POST', process.env.DOJOMOJO_URL + '/brands-users');
       xhr.setRequestHeader('brandid', instance.myBrandId);
       xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
       xhr.setRequestHeader('accept', '*/*');
