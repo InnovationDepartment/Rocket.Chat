@@ -157,7 +157,7 @@ Template.privateGroupsFlex.onCreated(function() {
 
     result.innerHTML = accountname;
     result.className = 'result';
-    result.style = 'color: #d5ecdb; padding: 10px;';
+    result.style = 'color: #9ec8c4; font-weight: bold; font-size: 12px; padding: 10px;';
     result.onclick = function(e) {
        // add brandId to group chat
       instance.selectedBrands.set({ id: id, name: accountname });
