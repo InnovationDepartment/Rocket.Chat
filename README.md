@@ -1,3 +1,5 @@
+Be sure to set your environment variables DOJOMOJO_URL to the domain of your Dojo Mojo web application instance
+
 ![Rocket.Chat logo](https://rocket.chat/images/logo/logo-dark.svg?v3)
 
 The Ultimate Open Source WebChat Platform
