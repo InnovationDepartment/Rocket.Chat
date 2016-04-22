@@ -130,7 +130,7 @@ Template.privateGroupsFlex.events({
     };
     xhr = new XMLHttpRequest;
     xhr.addEventListener('load', Template.instance().loadedResults);
-    xhr.open('POST', window.DOJOMOJO_URL + '/search');
+    xhr.open('POST', instance.dojoMojoUrl + '/search');
     xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
     xhr.setRequestHeader('accept', '*/*');
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -143,6 +143,9 @@ Template.privateGroupsFlex.events({
 Template.privateGroupsFlex.onCreated(function() {
   var instance;
   instance = this;
+  // grab environment
+  instance.dojoMojoUrl = new ReactiveVar();
+  Meteor.call('getDojoMojoEnv', function(err, dojomojoUrl) { console.log(dojomojoUrl); instance.dojoMojoUrl = dojomojoUrl });
   instance.selectedUsers = new ReactiveVar([]);
   instance.selectedBrands = new ReactiveVar([]);
   instance.selectedUserNames = {};
