@@ -175,7 +175,7 @@ Template.privateGroupsFlex.onCreated(function() {
   instance.getUsersForBrand = function(brandId, callback) {
       var xhr = new XMLHttpRequest;
       xhr.addEventListener('load', callback);
-      xhr.open('POST', process.env.DOJOMOJO_URL + '/brands-users');
+      xhr.open('POST', instance.dojoMojoUrl + '/brands-users');
       xhr.setRequestHeader('brandid', instance.myBrandId);
       xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
       xhr.setRequestHeader('accept', '*/*');
