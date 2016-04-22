@@ -205,7 +205,7 @@ Template.privateGroupsFlex.onCreated(function() {
   };
 
   instance.cleanRoomName = function(name) {
-    return name.replace(/\W/g, '').replace(/\s/g, '-');
+    return name.replace(/[^a-zA-Z0-9]/g, '-');
   };
 
   instance.createChat = function() {
