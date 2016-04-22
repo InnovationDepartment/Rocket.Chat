@@ -130,7 +130,7 @@ Template.privateGroupsFlex.events({
     };
     xhr = new XMLHttpRequest;
     xhr.addEventListener('load', Template.instance().loadedResults);
-    xhr.open('POST', process.env.DOJOMOJO_URL + '/search');
+    xhr.open('POST', window.DOJOMOJO_URL + '/search');
     xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
     xhr.setRequestHeader('accept', '*/*');
     xhr.setRequestHeader('Content-Type', 'application/json');

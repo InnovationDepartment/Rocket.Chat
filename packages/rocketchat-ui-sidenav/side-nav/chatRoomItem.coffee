@@ -5,7 +5,6 @@ Template.chatRoomItem.helpers
 			return this.alert
 
 	unread: ->
-		console.log this
 		return this.unread
 
 	userStatus: ->

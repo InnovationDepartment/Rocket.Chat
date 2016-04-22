@@ -7,6 +7,9 @@ Api = new Restivus
 Api.addRoute 'info', authRequired: false,
 	get: -> RocketChat.Info
 
+#Api.addRoute 'dojomojo/url', authRequired: false,
+#	get: ->
+#		env: process.env.DOJOMOJO_URL
 
 Api.addRoute 'version', authRequired: false,
 	get: ->
