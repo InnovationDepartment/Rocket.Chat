@@ -11,8 +11,8 @@ Template.privateGroupsFlex.helpers({
   selectedUsers: function() {
     return Template.instance().selectedUsers.get();
   },
-  selectedBrands: function() {
-    return Template.instance().selectedBrands.get();
+  selectedBrand: function() {
+    return Template.instance().selectedBrand.get();
   },
   groupName: function() {
     return Template.instance().groupName.get();
@@ -87,11 +87,11 @@ Template.privateGroupsFlex.events({
   'click .remove-room-member': function(e, instance) {
     var self, users, brands;
     self = this;
-    brands = Template.instance().selectedBrands.get();
-    brands = _.reject(template.instance().selectedBrands.get(), function(_id) {
+    brands = Template.instance().selectedBrand.get();
+    brands = _.reject(template.instance().selectedBrand.get(), function(_id) {
       return _id === self.value.Of();
     });
-    Template.instance().selectedBrands.set(brands);
+    Template.instance().selectedBrand.set(brands);
     return $('#pvt-group-members').focus();
   },
   'click .cancel-pvt-group': function(e, instance) {
@@ -145,9 +145,9 @@ Template.privateGroupsFlex.onCreated(function() {
   instance = this;
   // grab environment
   instance.dojoMojoUrl = new ReactiveVar();
-  Meteor.call('getDojoMojoEnv', function(err, dojomojoUrl) { console.log(dojomojoUrl); instance.dojoMojoUrl = dojomojoUrl });
+  Meteor.call('getDojoMojoEnv', function(err, dojomojoUrl) { instance.dojoMojoUrl = dojomojoUrl });
   instance.selectedUsers = new ReactiveVar([]);
-  instance.selectedBrands = new ReactiveVar([]);
+  instance.selectedBrand = new ReactiveVar([]);
   instance.selectedUserNames = {};
   instance.error = new ReactiveVar([]);
   instance.groupName = new ReactiveVar([]);
@@ -163,8 +163,9 @@ Template.privateGroupsFlex.onCreated(function() {
     result.style = 'color: #9ec8c4; font-weight: bold; font-size: 12px; padding: 10px;';
     result.onclick = function(e) {
        // add brandId to group chat
-      instance.selectedBrands.set({ id: id, name: accountname });
+      instance.selectedBrand.set({ id: id, name: accountname });
       instance.createChat();
+    // debugger;
        // now remove list display
        emptyList();
     };
@@ -203,21 +204,24 @@ Template.privateGroupsFlex.onCreated(function() {
     }
   };
 
+  instance.cleanRoomName = function(name) {
+    return name.replace(/\W/g, '').replace(/\s/g, '-');
+  };
+
   instance.createChat = function() {
     var err = SideNav.validate();
 
-    instance.groupName.set(name);
-
     var response, chatUserIds;
-    instance.getUsersForBrand(instance.selectedBrands.get().id, function(response) {
+    instance.getUsersForBrand(instance.selectedBrand.get().id, function(response) {
       response = JSON.parse(response.target.response);
       chatUserIds = response.chatuserids;
-      var name = response.accountname + ' and ' +  instance.selectedBrands.get().name;
+      var name = response.accountname + ' and ' +  instance.selectedBrand.get().name;
       for (var i = 0; i < chatUserIds.length; i++) {
         instance.selectedUsers.set(instance.selectedUsers.get().concat(chatUserIds[i]));
       }
 
-      name = name.replace(/\s/g, '-');
+      name = instance.cleanRoomName(name);
+      instance.groupName.set(name);
 
       if (!err) {
         Meteor.call('createPrivateGroup', name, chatUserIds, function(err, result) {
