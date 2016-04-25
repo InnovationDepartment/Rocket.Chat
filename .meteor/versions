@@ -8,6 +8,7 @@ accounts-password@1.1.4
 accounts-twitter@1.0.6
 aldeed:simple-schema@1.5.3
 arunoda:streams@0.1.17
+austinrivas:postgresql@2.11.3
 autoupdate@1.2.4
 babel-compiler@5.8.24_1
 babel-runtime@0.1.4
@@ -35,6 +36,7 @@ ddp-server@1.2.2
 deps@1.0.9
 diff-sequence@1.0.1
 dispatch:run-as-user@1.1.1
+dojo:rocketchat-dojo@0.0.1
 ecmascript@0.1.6
 ecmascript-runtime@0.2.6
 edgee:slingshot@0.7.1

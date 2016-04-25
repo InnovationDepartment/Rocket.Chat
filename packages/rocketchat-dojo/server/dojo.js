@@ -33,6 +33,11 @@ Accounts.registerLoginHandler("customLoginHandler", function (options) {
     console.log("customLoginHandler()");
 });
 
+RocketChat.API.v1.addRoute('test', {
+  get: function () {
+    return 'heelo';
+  }
+});
 RocketChat.API.v1.addRoute('register-user', {
   post: function () {
     var user = Accounts.findUserByEmail(this.request.body.email)._id;
@@ -45,7 +50,8 @@ RocketChat.API.v1.addRoute('register-user', {
 
 Meteor.methods({
   dojoAuth: function (cookie) {
-    var self = this
+console.log('auth');   
+ var self = this
     // var cookie =  this.request.cookies['remember']
     console.log(process.env);
 
