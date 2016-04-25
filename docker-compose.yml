@@ -11,7 +11,7 @@ rocketchat:
 #    - ./uploads:/app/uploads
   environment:
     - PORT=3000
-    - ROOT_URL=http://localhost:3000
+    - ROOT_URL=http://rocketchat:3000
     - MONGO_URL=mongodb://rocketchat:darbydarby@ds011661-a0.mlab.com:11661,ds011661-a1.mlab.com:11661/dojo-messages?replicaSet=rs-ds011661
   links:
     - mongo:mongo
