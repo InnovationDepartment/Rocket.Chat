@@ -201,7 +201,9 @@ Template.privateGroupsFlex.onCreated(function() {
     var response, chatUserIds;
     instance.getUsersForBrand(instance.selectedBrand.get().id, function(response) {
       response = JSON.parse(response.target.response);
-      chatUserIds = response.chatuserids;
+      chatUserIds = _.map(response.chatuserids, function (id) {
+        return id.toString();
+      });
       var name = response.accountname + ' and ' +  instance.selectedBrand.get().name;
       for (var i = 0; i < chatUserIds.length; i++) {
         instance.selectedUsers.set(instance.selectedUsers.get().concat(chatUserIds[i]));
