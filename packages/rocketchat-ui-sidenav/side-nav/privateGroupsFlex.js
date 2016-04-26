@@ -51,23 +51,6 @@ Template.privateGroupsFlex.helpers({
   }
 });
 
-window.getParameterByName = function(name, url) {
-  var regex, results;
-  if (!url) {
-    url = window.location.href;
-  }
-  name = name.replace(/[\[\]]/g, '\\$&');
-  regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
-  results = regex.exec(url);
-  if (!results) {
-    return null;
-  }
-  if (!results[2]) {
-    return '';
-  }
-  return decodeURIComponent(results[2].replace(/\+/g, ' '));
-};
-
 createCookie = function(name, value, days) {
   var expires;
   var date, expires;
@@ -139,7 +122,7 @@ Template.privateGroupsFlex.events({
     xhr.setRequestHeader('accept', '*/*');
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('accept-language', 'en-US,en;q=0.8');
-    xhr.setRequestHeader('authtoken', getParameterByName('remember'));
+    xhr.setRequestHeader('authtoken', window.rememberToken);
     return xhr.send(JSON.stringify(data));
   }
 });
@@ -155,8 +138,8 @@ Template.privateGroupsFlex.onCreated(function() {
   instance.selectedUserNames = {};
   instance.error = new ReactiveVar([]);
   instance.groupName = new ReactiveVar([]);
-  instance.myBrandId = getParameterByName('brand');
-  instance.myBrandName = getParameterByName('brand');
+  instance.myBrandId = window.brandToken;
+  instance.myBrandName = window.brandToken;
   instance.newResultItem = function (brand) {
     var accountname = brand._source.accountname;
     var id = brand._id;
@@ -181,12 +164,12 @@ Template.privateGroupsFlex.onCreated(function() {
       var xhr = new XMLHttpRequest;
       xhr.addEventListener('load', callback);
       xhr.open('POST', instance.dojoMojoUrl + '/brands-users');
-      xhr.setRequestHeader('brandid', instance.myBrandId);
+      xhr.setRequestHeader('brandid', window.brandToken);
       xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
       xhr.setRequestHeader('accept', '*/*');
       xhr.setRequestHeader('accept-language', 'en-US,en;q=0.8');
       xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
-      xhr.setRequestHeader('authtoken', getParameterByName('remember'));
+      xhr.setRequestHeader('authtoken', window.rememberToken);
       xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.send(JSON.stringify({ brandId: brandId}));
   };
