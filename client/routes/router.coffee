@@ -14,6 +14,21 @@ FlowRouter.route '/',
 	name: 'index'
 
 	action: ->
+		getParameterByName = (name, url) ->
+		  if !url
+		    url = window.location.href
+		  name = name.replace(/[\[\]]/g, '\\$&')
+		  regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)')
+		  results = regex.exec(url)
+		  if !results
+		    return null
+		  if !results[2]
+		    return ''
+		  decodeURIComponent results[2].replace(/\+/g, ' ')
+
+		window.rememberToken = getParameterByName('remember')
+		window.userIdToken = parseInt(getParameterByName('userId')) 
+		window.brandToken = getParameterByName('brand')
 		BlazeLayout.render 'main', {center: 'loading'}
 		if not Meteor.userId()
 			return FlowRouter.go 'home'
@@ -45,7 +60,8 @@ FlowRouter.route '/home',
 	name: 'home'
 
 	action: ->
-		if !Meteor.userId() || Meteor.user().username != window.userIdToken
+
+		if !Meteor.userId() || Meteor.user().username.toString() != window.userIdToken.toString()
 			FlowRouter.go 'login'
 		if localStorage.getItem('last_conversation')
 			FlowRouter.redirect(localStorage.getItem('last_conversation'))
