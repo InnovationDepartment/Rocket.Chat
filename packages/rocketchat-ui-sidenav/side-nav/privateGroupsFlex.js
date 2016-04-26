@@ -51,7 +51,7 @@ Template.privateGroupsFlex.helpers({
   }
 });
 
-getParameterByName = function(name, url) {
+window.getParameterByName = function(name, url) {
   var regex, results;
   if (!url) {
     url = window.location.href;

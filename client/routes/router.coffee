@@ -1,4 +1,4 @@
-getParameterByName = (name, url) ->
+window.getParameterByName = (name, url) ->
   if !url
     url = window.location.href
   name = name.replace(/[\[\]]/g, '\\$&')
