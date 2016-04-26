@@ -51,18 +51,22 @@ Template.privateGroupsFlex.helpers({
   }
 });
 
-function readCookie(name) {
-  var nameEQ = name + "=";
-  var ca = document.cookie.split(';');
-  for (var i=0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0)==' ')
-      c = c.substring(1,c.length);
-    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+getParameterByName = function(name, url) {
+  var regex, results;
+  if (!url) {
+    url = window.location.href;
   }
-
-  return null;
-}
+  name = name.replace(/[\[\]]/g, '\\$&');
+  regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+  results = regex.exec(url);
+  if (!results) {
+    return null;
+  }
+  if (!results[2]) {
+    return '';
+  }
+  return decodeURIComponent(results[2].replace(/\+/g, ' '));
+};
 
 createCookie = function(name, value, days) {
   var expires;
@@ -135,7 +139,7 @@ Template.privateGroupsFlex.events({
     xhr.setRequestHeader('accept', '*/*');
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('accept-language', 'en-US,en;q=0.8');
-    xhr.setRequestHeader('authtoken', readCookie('remember'));
+    xhr.setRequestHeader('authtoken', getParameterByName('remember'));
     return xhr.send(JSON.stringify(data));
   }
 });
@@ -151,8 +155,8 @@ Template.privateGroupsFlex.onCreated(function() {
   instance.selectedUserNames = {};
   instance.error = new ReactiveVar([]);
   instance.groupName = new ReactiveVar([]);
-  instance.myBrandId = readCookie('brand');
-  instance.myBrandName = readCookie('brand');
+  instance.myBrandId = getParameterByName('brand');
+  instance.myBrandName = getParameterByName('brand');
   instance.newResultItem = function (brand) {
     var accountname = brand._source.accountname;
     var id = brand._id;
@@ -182,7 +186,7 @@ Template.privateGroupsFlex.onCreated(function() {
       xhr.setRequestHeader('accept', '*/*');
       xhr.setRequestHeader('accept-language', 'en-US,en;q=0.8');
       xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
-      xhr.setRequestHeader('authtoken', readCookie('remember'));
+      xhr.setRequestHeader('authtoken', getParameterByName('remember'));
       xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.send(JSON.stringify({ brandId: brandId}));
   };

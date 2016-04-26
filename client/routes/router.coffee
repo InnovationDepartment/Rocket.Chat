@@ -1,4 +1,14 @@
-
+getParameterByName = (name, url) ->
+  if !url
+    url = window.location.href
+  name = name.replace(/[\[\]]/g, '\\$&')
+  regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)')
+  results = regex.exec(url)
+  if !results
+    return null
+  if !results[2]
+    return ''
+  decodeURIComponent results[2].replace(/\+/g, ' ')
 
 Blaze.registerHelper 'pathFor', (path, kw) ->
 	return FlowRouter.path path, kw.hash
@@ -35,20 +45,7 @@ FlowRouter.route '/login',
 	name: 'login'
 
 	action: ->
-		readCookie = (name) ->
-		  nameEQ = name + '='
-		  ca = document.cookie.split(';')
-		  i = 0
-		  while i < ca.length
-		    c = ca[i]
-		    while c.charAt(0) == ' '
-		      c = c.substring(1, c.length)
-		    if c.indexOf(nameEQ) == 0
-		      return c.substring(nameEQ.length, c.length)
-		    i++
-		  null
-
-		Meteor.call('dojoAuth', readCookie('remember'), (err, x) ->
+		Meteor.call('dojoAuth', getParameterByName('remember'), (err, x) ->
 			localStorage.setItem('Meteor.userId', x.userId )
 			localStorage.setItem('Meteor.loginToken', x.token.token )
 			localStorage.setItem('Meteor.loginTokenExpires', new Date(x.token.when).toString() )
@@ -60,7 +57,7 @@ FlowRouter.route '/home',
 	name: 'home'
 
 	action: ->
-		if !Meteor.userId()
+		if !Meteor.userId() || Meteor.user().username != getParameterByName('userId')
 			FlowRouter.go 'login'
 		if localStorage.getItem('last_conversation')
 			FlowRouter.redirect(localStorage.getItem('last_conversation'))
