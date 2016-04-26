@@ -1,32 +1,32 @@
 @font-face {
   font-family: 'GothamRnd-Bold';
-  src:  url('/font/GothamRnd-Bold.otf') format('opentype');
+  src:  url('/fonts/GothamRnd-Bold.otf') format('opentype');
 }
 @font-face {
   font-family: 'GothamRnd-Boldltal';
-  src:  url('/font/GothamRnd-Boldltal.otf') format('opentype');
+  src:  url('/fonts/GothamRnd-Boldltal.otf') format('opentype');
 }
 @font-face {
   font-family: 'GothamRnd-Book';
-  src:  url('/font/GothamRnd-Book.otf') format('opentype');
+  src:  url('/fonts/GothamRnd-Book.otf') format('opentype');
 }
 @font-face {
   font-family: 'GothamRnd-Bookltal';
-  src:  url('/font/GothamRnd-Bookltal.otf') format('opentype');
+  src:  url('/fonts/GothamRnd-Bookltal.otf') format('opentype');
 }
 @font-face {
   font-family: 'GothamRnd-Light';
-  src:  url('/font/GothamRnd-Light.otf') format('opentype');
+  src:  url('/fonts/GothamRnd-Light.otf') format('opentype');
 }
 @font-face {
   font-family: 'GothamRnd-Lightltal';
-  src:  url('/font/GothamRnd-Lightltal.otf') format('opentype');
+  src:  url('/fonts/GothamRnd-Lightltal.otf') format('opentype');
 }
 @font-face {
   font-family: 'GothamRnd-Medltal';
-  src:  url('/font/GothamRnd-Medltal.otf') format('opentype');
+  src:  url('/fonts/GothamRnd-Medltal.otf') format('opentype');
 }
 @font-face {
   font-family: 'GothamRnd-Medium';
-  src:  url('/font/GothamRnd-Medium.otf') format('opentype');
+  src:  url('/fonts/GothamRnd-Medium.otf') format('opentype');
 }
