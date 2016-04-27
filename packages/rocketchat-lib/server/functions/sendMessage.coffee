@@ -7,6 +7,8 @@ RocketChat.sendMessage = (user, message, room, options) ->
 
 	message.u = _.pick user, ['_id','username', 'fullname']
 
+	console.log( message.u )
+
 	message.rid = room._id
 
 	if not room.usernames?
