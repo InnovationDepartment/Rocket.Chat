@@ -5,7 +5,7 @@ RocketChat.sendMessage = (user, message, room, options) ->
 	unless message.ts?
 		message.ts = new Date()
 
-	message.u = _.pick user, ['_id','username']
+	message.u = _.pick user, ['_id','username', 'fullname']
 
 	message.rid = room._id
 
