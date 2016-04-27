@@ -6,7 +6,7 @@ Meteor.methods
 		if not Meteor.userId()
 			throw new Meteor.Error('invalid-user', "[methods] sendMessage -> Invalid user")
 
-		user = RocketChat.models.Users.findOneById Meteor.userId(), fields: username: 1
+		user = RocketChat.models.Users.findOneById Meteor.userId(), fields: username: 1, fullname: 1
 
 		room = Meteor.call 'canAccessRoom', message.rid, user._id
 
