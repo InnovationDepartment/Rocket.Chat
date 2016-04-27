@@ -9,6 +9,7 @@ Meteor.methods
 
 			message.u =
 				_id: Meteor.userId()
+				fullname: Meteor.user().fullname
 				username: Meteor.user().username
 
 			message.temp = true
