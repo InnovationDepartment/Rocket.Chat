@@ -18,5 +18,7 @@ Meteor.startup ->
           if !(hasFocus and messageIsInOpenedRoom)
             # Play a sound.
             KonchatNotification.newMessage()
+            notification.title = notification.payload.name
+            notification.text = notification.text.replace('@all ', '')
             # Show a notification.
             KonchatNotification.showDesktop notification
