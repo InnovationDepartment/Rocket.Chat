@@ -36,15 +36,31 @@
 	<link rel="apple-touch-icon" sizes="152x152" href="/images/logo/apple-touch-icon-152x152.png?v=3">
 	<link rel="apple-touch-icon" sizes="180x180" href="/images/logo/apple-touch-icon-180x180.png?v=3">
         <link type="text/css" rel="stylesheet" href="/font.css" />
-        </head>
+      <script>
+        function getParameterByName(name, url) {
+          if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+          if (!results) return null;
+          if (!results[2]) return '';
+          return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+        // don't hack me bro
+        var belt = getParameterByName('belt');
+        var displayButton = ['black', 'green', 'orange'].indexOf(belt) > -1;
+     </script>
+     </head>
 
 <body style="background-color: #fff;">
 </body>
 
 <template name="main">
-<div style="z-index: 100000; width: 100%; height: 60px; background-color: #d5ecdb; padding-left: 40px; padding-right: 40px;">
-  <button type="submit" class="new-conversation btn btn-primary" style="float: right; margin-bottom: 15px; font-family: 'GothamRnd-Bold'; text-transform: uppercase; border-radius: 1px; font-size: 9px; min-height: 38px; letter-spacing: 2px; min-width: 158px; padding-right: 20px; padding-left: 20px; padding-top: 6px; outline: none; border-color: rgb(255, 128, 19); color: white; border-width: 0; background-color: rgb(255, 128, 19);">START NEW CONVERSATION</button>
-</div>
+{{#if displayButton}}
+  <div style="z-index: 100000; width: 100%; height: 60px; background-color: #d5ecdb; padding-left: 40px; padding-right: 40px;">
+      <button type="submit" class="new-conversation btn btn-primary" style="float: right; margin-bottom: 15px; font-family: 'GothamRnd-Bold'; text-transform: uppercase; border-radius: 1px; font-size: 9px; min-height: 38px; letter-spacing: 2px; min-width: 158px; padding-right: 20px; padding-left: 20px; padding-top: 6px; outline: none; border-color: rgb(255, 128, 19); color: white; border-width: 0; background-color: rgb(255, 128, 19);">START NEW CONVERSATION</button>
+  </div>
+{{/if}}
 	{{#if subsReady}}
 		{{#unless logged}}
 			<div class="connection-status">
